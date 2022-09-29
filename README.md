@@ -4,6 +4,9 @@
 ### Oscar de leon 19298
 ### AndresQ 18288
 
+- Este proyecto esta construido en base a node.js/react 
+
+
 ## Objetivos
 - Aplicar los conocimientos de TCP para mantener sincronizados los estados internos de
 distintos clientes de una aplicación.
