@@ -301,5 +301,328 @@ const Racko = (props) => {
     alert("Card taken, turn changed");
   };
 
+  useEffect(() => {
+    if (gameOver) {
+      alert("Game Over!!!: " + "The winner is: " + winner);
+      history.push("/");
+    }
+  }, []);
+
+  return (
+    <div className='game-main-container'>
+      {!roomFull ? (
+        <>
+          {users.length < 4 && <h1>Code: {room}</h1>}
+          {users.length < 4 && users.map((u) => <h3>{u.name}</h3>)}
+          {users.length === 4 && (
+            <div>
+              <h1>Welcome to Rack-O</h1>
+              <div
+                style={{ background: "red", height: "30vh", display: "flex" }}
+              >
+                <div
+                  style={{
+                    width: "50%",
+                    background: "green",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <h4 style={{ marginRight: "10px" }}>Player 4</h4>
+                  {player4Deck.map((c) => (
+                    <div
+                      style={{
+                        background: "purple",
+                        height: "100px",
+                        width: "75px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        border: "4px solid black",
+                        marginLeft: "6px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {c}
+                    </div>
+                  ))}
+                </div>
+                <div
+                  style={{
+                    width: "50%",
+                    background: "blue",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <h4 style={{ marginRight: "10px" }}>Player 3</h4>
+                  {player3Deck.map((c) => (
+                    <div
+                      style={{
+                        background: "purple",
+                        height: "100px",
+                        width: "75px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        border: "4px solid black",
+                        marginLeft: "6px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {c}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div
+                style={{ background: "green", height: "30vh", display: "flex" }}
+              >
+                <div
+                  style={{
+                    width: "50%",
+                    background: "blue",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                    cursor: "pointer",
+                  }}
+                >
+                  <h4 style={{ marginRight: "10px" }}>
+                    Player 2: {users[1].name}
+                  </h4>
+                  {player2Deck.map((c) => (
+                    <div
+                      style={{
+                        background: "purple",
+                        height: "100px",
+                        width: "75px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        border: "4px solid black",
+                        marginLeft: "6px",
+                        cursor: "pointer",
+                      }}
+                      onClick={(e) => {
+                        let i = player2Deck.indexOf(c);
+
+                        setPlayer2Deck(
+                          Object.assign([], player2Deck, { [i]: 80 })
+                        );
+                      }}
+                    >
+                      {c}
+                    </div>
+                  ))}
+                </div>
+                <div
+                  style={{
+                    width: "50%",
+                    background: "green",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <h4 style={{ marginRight: "10px" }}>
+                    Player 1: {users[0].name}
+                  </h4>
+                  {player1Deck.map((c) => (
+                    <div
+                      style={{
+                        background: "purple",
+                        height: "100px",
+                        width: "75px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        border: "4px solid black",
+                        marginLeft: "6px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {c}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className='deck-container'>
+                {currentUser === "Player 1" && (
+                  <button
+                    onClick={handlePressDeck}
+                    className='deck'
+                    disabled={turn !== "Player 1" || deckPressed}
+                  >
+                    Deck
+                  </button>
+                )}
+
+                {currentUser === "Player 2" && (
+                  <button
+                    onClick={handlePressDeck}
+                    className='deck'
+                    disabled={turn !== "Player 2" || deckPressed}
+                  >
+                    Deck
+                  </button>
+                )}
+
+                {currentUser === "Player 3" && (
+                  <button
+                    onClick={handlePressDeck}
+                    className='deck'
+                    disabled={turn !== "Player 3" || deckPressed}
+                  >
+                    Deck
+                  </button>
+                )}
+
+                {currentUser === "Player 4" && (
+                  <button
+                    onClick={handlePressDeck}
+                    className='deck'
+                    disabled={turn !== "Player 4" || deckPressed}
+                  >
+                    Deck
+                  </button>
+                )}
+
+                <h3>Turn: {turn}</h3>
+                <div className='chatBoxWrapper'>
+                  <div className='chat-box chat-box-player1'>
+                    <div className='chat-head'>
+                      <h2>Chat Box</h2>
+                      {!isChatBoxHidden ? (
+                        <span onClick={toggleChatBox} class='material-icons'>
+                          keyboard_arrow_down
+                        </span>
+                      ) : (
+                        <span onClick={toggleChatBox} class='material-icons'>
+                          keyboard_arrow_up
+                        </span>
+                      )}
+                    </div>
+                    <div className='chat-body'>
+                      <div className='msg-insert'>
+                        {messages.map((msg) => {
+                          return (
+                            <div className='msg-send'>
+                              {`From: ${msg.user} ->  ${msg.text}`}
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <div className='chat-text'>
+                        <input
+                          type='text'
+                          placeholder='Type a message...'
+                          value={message}
+                          onChange={(event) => setMessage(event.target.value)}
+                          onKeyPress={(event) =>
+                            event.key === "Enter" && sendMessage(event)
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                {currentUser === turn && deckPressed && (
+                  <div class='card-from-deck'>
+                    <div
+                      style={{
+                        background: "purple",
+                        height: "100px",
+                        width: "75px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        border: "4px solid black",
+                        marginLeft: "6px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {currentDeckCard}
+                    </div>
+                    <div>
+                      {/* <input
+                      type='text'
+                      placeholder='Deck Position'
+                    /> */}
+                      <button
+                        onClick={handleDeckCardTake}
+                        className='btn take'
+                        type='submit'
+                      >
+                        Take
+                      </button>
+                      <button
+                        onClick={handleDeckCardDiscard}
+                        className='btn discard'
+                        type='submit'
+                        disabled={takeDeckCard}
+                      >
+                        Discard
+                      </button>
+                    </div>
+                    {takeDeckCard && (
+                      <div>
+                        <input
+                          type='number'
+                          placeholder='Position'
+                          value={deckCardPosition}
+                          onChange={(e) => setDeckCardPosition(e.target.value)}
+                        ></input>
+                        <button onClick={handleChangeCard}>Accept</button>
+                      </div>
+                    )}
+                  </div>
+                )}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "14px",
+                    color: "red",
+                  }}
+                >
+                  {currentUser === "Player 1" && (
+                    <h1>Hi Player 1, you rock!</h1>
+                  )}
+
+                  {currentUser === "Player 2" && (
+                    <h1>Hi Player 2, you're the best!</h1>
+                  )}
+
+                  {currentUser === "Player 3" && (
+                    <h1>Hi Player 3, keep going!</h1>
+                  )}
+
+                  {currentUser === "Player 4" && <h1>Hi Player 4, lumos!</h1>}
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
+        <h1>Room full</h1>
+      )}
+
+      <br />
+      <a href='/'>
+        <button className='game-button red'>Quit</button>
+      </a>
+    </div>
+  );
+};
 
 export default memo(Racko);
