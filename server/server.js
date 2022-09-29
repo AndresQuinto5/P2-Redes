@@ -20,3 +20,14 @@ const socketio = require("socket.io");
 const http = require("http");
 const cors = require("cors");
 
+/** Main server-side functions to add, remove & get users, also for the rooms */
+const users = [];
+
+const addUser = ({ id, name, playerType, room }) => {
+  const numberOfUsersInRoom = users.filter((user) => user.room === room).length;
+  if (numberOfUsersInRoom === 4) return { error: "The Room is full" };
+
+  const newUser = { id, name, playerType, room };
+  users.push(newUser);
+  return { newUser };
+};
