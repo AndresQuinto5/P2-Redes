@@ -1,10 +1,10 @@
 # P2-Redes - RackO UVG
 
+- Este proyecto esta construido en base a node.js/react 
+
 ### Mirka Monzon 18139
 ### Oscar de leon 19298
 ### AndresQ 18288
-
-- Este proyecto esta construido en base a node.js/react 
 
 
 ## Objetivos
