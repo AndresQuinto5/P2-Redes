@@ -2,7 +2,7 @@
 
 ### Mirka Nicolle 18139
 ### Oscar de leon 19298
-### AndresQ
+### AndresQ 18
 
 ## Objetivos
 - Aplicar los conocimientos de TCP para mantener sincronizados los estados internos de
