@@ -46,3 +46,51 @@ const getUsersInRoom = (room) => {
   return users.filter((user) => user.room === room);
 };
 /**************************************************************** */
+
+/** Server instances */
+const PORT = 8000;
+const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
+
+/** Used to validate the cors headers calls */
+app.use(cors());
+
+/** Socket calls AKA server IO functions */
+
+io.on("connection", (socket) => {
+  /** Manages the calls when a users connects to the server */
+
+  socket.on("join", (payload, callback) => {
+    let { room, name } = payload;
+    let usersInRoom = getUsersInRoom(payload.room).length;
+    const { error, newUser } = addUser({
+      id: socket.id,
+      name,
+      playerType:
+        usersInRoom === 0
+          ? "Player 1"
+          : usersInRoom === 1
+          ? "Player 2"
+          : usersInRoom === 2
+          ? "Player 3"
+          : "Player 4",
+      room,
+    });
+
+    //Desconections or bad request validations
+    if (error) return callback(error);
+
+    // Adds user to a room
+    socket.join(newUser.room);
+
+    //Returns the room data
+    io.to(newUser.room).emit("roomData", {
+      room: newUser.room,
+      users: getUsersInRoom(newUser.room),
+    });
+
+    // Gets and return the current user data
+    socket.emit("currentUserData", { playerType: newUser.playerType });
+    callback();
+  });
