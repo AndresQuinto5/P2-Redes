@@ -94,3 +94,43 @@ io.on("connection", (socket) => {
     socket.emit("currentUserData", { playerType: newUser.playerType });
     callback();
   });
+
+  // Gets and return the Game initial data
+  socket.on("initGameState", (gameState) => {
+    const user = getUser(socket.id);
+    console.log(gameState);
+    if (user) io.to(user.room).emit("initGameState", gameState);
+  });
+
+  // Updates the state of the game (winning condition)
+  socket.on("updateGameState", (gameState) => {
+    const user = getUser(socket.id);
+    if (user) io.to(user.room).emit("updateGameState", gameState);
+  });
+
+  // Used for the chat
+  socket.on("sendMessage", (payload, callback) => {
+    const user = getUser(socket.id);
+    console.log(user);
+    io.to(user.room).emit("message", {
+      user: user.name,
+      text: payload.message,
+    });
+    callback();
+  });
+
+  // Handles desconnections removing the disconnected user from the user list
+  socket.on("disconnect", () => {
+    const user = removeUser(socket.id);
+    if (user)
+      io.to(user.room).emit("roomData", {
+        room: user.room,
+        users: getUsersInRoom(user.room),
+      });
+  });
+});
+
+// The server connects and listens to the specified port (5000 in our case)
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
