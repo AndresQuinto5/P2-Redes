@@ -190,5 +190,116 @@ const Racko = (props) => {
     });
   };
 
+  const handleDeckCardDiscard = () => {
+    const tempDeck = deck;
+    tempDeck.splice(0, 1);
+    alert("Card discarted, turn changed");
+    socket.emit("updateGameState", {
+      deck: tempDeck,
+      discartedDeck: [...discartedDeck, currentDeckCard],
+      turn:
+        currentUser === "Player 1"
+          ? "Player 2"
+          : currentUser === "Player 2"
+          ? "Player 3"
+          : currentUser === "Player 3"
+          ? "Player 4"
+          : "Player 1",
+    });
+
+    if (deck.length === 1) {
+      socket.emit("updateGameState", {
+        deck: [...discartedDeck, currentDeckCard],
+      });
+    }
+  };
+
+  const checkWinner = () => {
+    if (currentUser === "Player 1") {
+      if (isAscending(player1Deck)) {
+        socket.emit("updateGameState", { gameOver: true, winner: "Player 1" });
+      }
+    } else if (currentUser === "Player 2") {
+      if (isAscending(player2Deck)) {
+        socket.emit("updateGameState", { gameOver: true, winner: "Player 2" });
+      }
+    } else if (currentUser === "Player 3") {
+      if (isAscending(player3Deck)) {
+        socket.emit("updateGameState", { gameOver: true, winner: "Player 3" });
+      }
+    } else {
+      if (isAscending(player4Deck)) {
+        socket.emit("updateGameState", { gameOver: true, winner: "Player 4" });
+      }
+    }
+  };
+
+  const handleDeckCardTake = () => {
+    setTakeDeckCard(true);
+  };
+
+  const handleChangeCard = () => {
+    setTakeDeckCard(false);
+    let tempDeck = [];
+    let tempCard = "";
+    let tempMainDeck = [];
+    if (currentUser === "Player 1") {
+      tempDeck = player1Deck;
+      tempCard = tempDeck[deckCardPosition];
+      tempDeck[deckCardPosition] = currentDeckCard;
+      tempMainDeck = deck;
+      tempMainDeck.splice(0, 1);
+      socket.emit("updateGameState", {
+        player1Deck: tempDeck,
+        turn: "Player 2",
+        deck: tempMainDeck,
+        discartedDeck: [...discartedDeck, tempCard],
+      });
+    } else if (currentUser === "Player 2") {
+      tempDeck = player2Deck;
+      tempCard = tempDeck[deckCardPosition];
+      tempDeck[deckCardPosition] = currentDeckCard;
+      tempMainDeck = deck;
+      tempMainDeck.splice(0, 1);
+      socket.emit("updateGameState", {
+        player2Deck: tempDeck,
+        turn: "Player 3",
+        deck: tempMainDeck,
+        discartedDeck: [...discartedDeck, tempCard],
+      });
+    } else if (currentUser === "Player 3") {
+      tempDeck = player3Deck;
+      tempCard = tempDeck[deckCardPosition];
+      tempDeck[deckCardPosition] = tempCard;
+      tempMainDeck = deck;
+      tempMainDeck.splice(0, 1);
+      socket.emit("updateGameState", {
+        player3Deck: tempDeck,
+        turn: "Player 4",
+        deck: tempMainDeck,
+        discartedDeck: [...discartedDeck, tempCard],
+      });
+    } else {
+      tempDeck = player4Deck;
+      tempCard = tempDeck[deckCardPosition];
+      tempDeck[deckCardPosition] = currentDeckCard;
+      tempMainDeck = deck;
+      tempMainDeck.splice(0, 1);
+      socket.emit("updateGameState", {
+        player4Deck: tempDeck,
+        turn: "Player 1",
+        deck: tempMainDeck,
+        discartedDeck: [...discartedDeck, tempCard],
+      });
+    }
+    if (deck.length === 1) {
+      socket.emit("updateGameState", {
+        deck: [...discartedDeck, tempCard],
+      });
+    }
+    checkWinner();
+    alert("Card taken, turn changed");
+  };
+
 
 export default memo(Racko);
