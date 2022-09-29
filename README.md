@@ -1,6 +1,6 @@
 # P2-Redes - RackO UVG
 
-### Mirka Nicolle 18139
+### Mirka Monzon 18139
 ### Oscar de leon 19298
 ### AndresQ 18288
 
