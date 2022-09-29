@@ -135,5 +135,60 @@ const Racko = (props) => {
       }
     );
 
+    socket.on(
+      "updateGameState",
+      ({
+        gameOver,
+        winner,
+        turn,
+        player1Deck,
+        player2Deck,
+        player3Deck,
+        player4Deck,
+        deck,
+        discartedDeck,
+        deckCard,
+        deckDisabled,
+      }) => {
+        gameOver && setGameOver(gameOver);
+        winner && setWinner(winner);
+        turn && setTurn(turn);
+        player1Deck && setPlayer1Deck(player1Deck);
+        player2Deck && setPlayer2Deck(player2Deck);
+        player3Deck && setPlayer3Deck(player3Deck);
+        player4Deck && setPlayer4Deck(player4Deck);
+
+        deck && setDeck(deck);
+        discartedDeck && setDiscartedDeck(discartedDeck);
+        setCurrentDeckCard(deckCard);
+      }
+    );
+
+    socket.on("message", (message) => {
+      setMessages((messages) => [...messages, message]);
+
+      const chatBody = document.querySelector(".chat-body");
+      chatBody.scrollTop = chatBody.scrollHeight;
+    });
+  }, []);
+
+  const sendMessage = (event) => {
+    event.preventDefault();
+    if (message) {
+      socket.emit("sendMessage", { message: message }, () => {
+        setMessage("");
+      });
+    }
+  };
+
+  const handlePressDeck = () => {
+    setDeckPressed(true);
+    const deckCard = deck[0];
+
+    socket.emit("updateGameState", {
+      deckCard,
+    });
+  };
+
 
 export default memo(Racko);
