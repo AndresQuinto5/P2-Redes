@@ -1,6 +1,6 @@
 # P2-Redes - RackO UVG
 
-### Mirka Nicolle
+### Mirka Nicolle 18
 ### Oscar de leon
 ### AndresQ
 
