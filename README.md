@@ -1,7 +1,7 @@
 # P2-Redes - RackO UVG
 
 ### Mirka Nicolle 18139
-### Oscar de leon
+### Oscar de leon 19
 ### AndresQ
 
 ## Objetivos
