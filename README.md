@@ -3,8 +3,8 @@
 - Este proyecto esta construido en base a node.js/react 
 
 ### Mirka Monzon 18139
-### Oscar de leon 19298
-### AndresQ 18288
+### Oscar De Leon 19298
+### Andres Quinto 18288
 
 
 ## Objetivos
