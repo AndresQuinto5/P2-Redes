@@ -60,6 +60,9 @@ app.use(cors());
 
 /** Socket calls AKA server IO functions */
 
+
+
+
 io.on("connection", (socket) => {
   /** Manages the calls when a users connects to the server */
 
