@@ -128,7 +128,12 @@ io.on("connection", (socket) => {
     callback();
   });
 
-  // Handles desconnections removing the disconnected user from the user list
+
+
+
+
+
+   // Handles desconnections removing the disconnected user from the user list
   socket.on("disconnect", () => {
     const user = removeUser(socket.id);
     if (user)
