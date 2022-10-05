@@ -36,3 +36,6 @@ como Guerra).
 
 - Poder manejar varias “mesas” o “salas”. Es decir, soportar juegos concurrentes que puedan
 ocurrir en el servidor.
+
+
+## link del video: https://youtu.be/mirB7hTlU4E
