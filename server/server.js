@@ -100,6 +100,10 @@ io.on("connection", (socket) => {
     callback();
   });
 
+  
+
+
+
   // Gets and return the Game initial data
   socket.on("initGameState", (gameState) => {
     const user = getUser(socket.id);
